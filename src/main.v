@@ -104,7 +104,9 @@ fn (mut app App) add_paste() vweb.Result {
 		exit(1)
 	}
 	
-	last_id := last[0].id
+	println(last)
+
+	last_id := if last.len == 0 { 0 } else { last[0].id }
 	body.id = last_id + 1
 	body.hash = sha512.hexhash(body.content + time.now().unix_time_milli().str())[0..17]
 
@@ -139,6 +141,7 @@ fn (mut app App) paste(paste string) vweb.Result {
 	if raw.len == 0 {
 		return app.not_found()
 	}
+	println(raw)
 	content := raw[0].content
 
 	app.add_header('content', content)

@@ -5,6 +5,11 @@ window.onload = function() {
     // reset.innerHTML = "";
 }
 
+// async function newPaste() {
+//     document.getElementById("input") = "";
+//     window.history.replaceState(null, null, "/");
+// }
+
 async function doClick() {
     // const a = document.createElement("a");
     area = document.getElementById("input").value;
@@ -12,7 +17,7 @@ async function doClick() {
     url = await link.text();
     // console.log(url);
 
-    window.history.replaceState(null, null, url)
+    window.history.replaceState(null, null, url);
     // window.location.href = url;
 
     // a.href = a.textContent = "http://localhost:8082/" + url;
@@ -61,13 +66,3 @@ async function validate(username, password) {
     //     }
     // });
 }
-
-async function hash(string) {
-    const utf8 = new TextEncoder().encode(string);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray
-      .map((bytes) => bytes.toString(16).padStart(2, '0'))
-      .join('');
-    return hashHex;
-  }
