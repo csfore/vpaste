@@ -1,0 +1,41 @@
+<form accept-charset="utf-8" name="login">
+    <label>Username</label>
+    <input type="text" name="user">
+    <label>Password</label>
+    <input type="text" name="pass">
+    <input type="submit" value="Submit">
+  </form>
+  <script>
+    login.onsubmit = async (e) => {
+      e.preventDefault();
+      form = new FormData(login);
+      // console.log(form.get('user'))
+      new_pass = await hash(form.get('pass'));
+      form.set('pass', new_pass);
+      console.log(new_pass)
+      // console.log(form.set('pass', ));
+  
+      let response = await fetch('/login', {
+        method: 'POST',
+        body: form,
+        // headers: {
+        //   'Content-Type': 'application/json'
+        // }
+      });
+  
+      let result = await response;
+      console.log(result);
+  
+      // alert(result.message);
+    };
+  
+    async function hash(string) {
+      const utf8 = new TextEncoder().encode(string);
+      const hashBuffer = await crypto.subtle.digest('SHA-512', utf8);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray
+        .map((bytes) => bytes.toString(16).padStart(2, '0'))
+        .join('');
+      return hashHex;
+    }
+  </script>

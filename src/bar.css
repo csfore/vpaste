@@ -1,0 +1,54 @@
+.bar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #525252;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+}
+
+.bar-items button {
+    border: none;
+    /* color: white; */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.copy-svg {
+    filter: invert(98%) sepia(69%) saturate(536%) hue-rotate(325deg) brightness(116%) contrast(92%);
+}
+
+.bar-items button {
+    border: none;
+    background-color: inherit;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.bar-items {
+    padding: .25rem;
+    text-align: center;
+    display: block;
+    /* padding-right: 1rem; */
+}
+
+.bar-items .copy {
+    /* padding-top: .1rem; */
+    float: left;
+}
+
+.bar li {
+    display: inline;
+}
+
+.bar-items .paste {
+    background-color: inherit;
+    float: right;
+    color: #f5e4d7;
+}

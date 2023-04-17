@@ -1,0 +1,7 @@
+@if validated
+  @for var in pastes
+      <div>
+        <p>${var.id}, ${var.content}, ${var.hash}</p>
+      </div>
+  @end
+@end

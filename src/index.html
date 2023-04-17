@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<head>
+    <!--Let browser know website is optimized for mobile-->
+    <meta charset='UTF-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>${title}</title>
+    @css 'src/styles.css'
+    @js 'src/scripts.js'
+</head>
+<body>
+   <div class="main">
+        <textarea autofocus id="input">${content}</textarea>
+        <!-- <div class="top">
+            @include 'templates/root.html'
+            <div class="top-inner">
+                <button id="button" onclick="doClick()">Save</button>
+            </div>
+        </div> -->
+        @include 'templates/bar.html'
+   </div>
+</body>
+</html>
