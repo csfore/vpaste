@@ -25,9 +25,7 @@ pub fn (mut app App) before_request() {
 		value: '0'
 	}
 
-	app.get_cookie('auth') or {
-		app.set_cookie(cookie)
-	}
+	app.get_cookie('auth') or { app.set_cookie(cookie) }
 
 	println('[web] before_request: ${app.req.method} ${app.req.url}')
 }
@@ -45,25 +43,10 @@ fn new_app() &App {
 fn main() {
 	mut db := databases.create_db_connection() or { panic(err) }
 
-	// one := Paste{
-	// 	id: 1
-	// 	content: 'hello'
-	// 	hash: sha512.hexhash('hello' + time.now().unix_time_milli().str())[0..17]
-	// }
-	// two := Paste{
-	// 	id: 2
-	// 	content: 'world'
-	// 	hash: sha512.hexhash('world' + time.now().unix_time_milli().str())[0..17]
-	// }
-
 	sql db {
 		create table Paste
 		create table Admin
-		// insert one into Paste
-		// insert two into Paste
 	} or { panic('error on create table: ${err}') }
-
-
 
 	db.close() or { panic(err) }
 
@@ -86,16 +69,14 @@ pub fn (mut app App) index() vweb.Result {
 
 ['/paste'; post]
 fn (mut app App) add_paste() vweb.Result {
-	db := databases.create_db_connection() or {
-		panic(err)
-	}
+	db := databases.create_db_connection() or { panic(err) }
 
 	mut body := Paste{
 		content: app.req.data
 	}
 
 	println(app.req.data)
-	// mut body := 
+	// mut body :=
 
 	last := sql db {
 		select from Paste order by id desc limit 1
@@ -103,7 +84,7 @@ fn (mut app App) add_paste() vweb.Result {
 		eprintln(err)
 		exit(1)
 	}
-	
+
 	println(last)
 
 	last_id := if last.len == 0 { 0 } else { last[0].id }
@@ -119,20 +100,17 @@ fn (mut app App) add_paste() vweb.Result {
 
 	println('${body.id}, ${body.content}')
 	// println('http://localhost:8082/${body.hash}\n')
-	
+
 	return app.text('${body.hash}\n')
 }
-
 
 ['/:paste']
 fn (mut app App) paste(paste string) vweb.Result {
 	title := 'Paste'
-	db := databases.create_db_connection() or {
-		panic(err)
-	}
+	db := databases.create_db_connection() or { panic(err) }
 
 	raw := sql db {
-		select from Paste where hash == '${paste}' limit 1 
+		select from Paste where hash == '${paste}' limit 1
 	} or {
 		eprintln(err)
 		exit(1)
@@ -148,4 +126,3 @@ fn (mut app App) paste(paste string) vweb.Result {
 
 	return $vweb.html()
 }
-

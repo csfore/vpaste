@@ -1,4 +1,5 @@
 module main
+
 import vweb
 import databases
 import net.http
@@ -11,19 +12,15 @@ fn (mut app App) admin() vweb.Result {
 	}
 
 	println('h - ${app.header}')
-	auth_header := app.header.get_custom('is_auth', config) or {
-		''
-	}
+	auth_header := app.header.get_custom('is_auth', config) or { '' }
 	// header := app.get_header('is_auth')
 	// println('a $header')
 	println(auth_header)
-	if auth_header != 'true' { 
-		return app.redirect('/login') 
-	} 
-
-	db := databases.create_db_connection() or {
-		panic(err)
+	if auth_header != 'true' {
+		return app.redirect('/login')
 	}
+
+	db := databases.create_db_connection() or { panic(err) }
 
 	pastes := sql db {
 		select from Paste
@@ -43,7 +40,7 @@ fn (mut app App) admin() vweb.Result {
 		exit(1)
 	}
 	// println(last)
-	
+
 	println('isauth: ${auth_header}')
 
 	validated := if auth_header == 'true' { true } else { false }
@@ -54,9 +51,7 @@ fn (mut app App) admin() vweb.Result {
 
 ['/login'; post]
 pub fn (mut app App) check_auth() vweb.Result {
-	db := databases.create_db_connection() or {
-		panic(err)
-	}
+	db := databases.create_db_connection() or { panic(err) }
 	admins := sql db {
 		select from Admin
 	} or {
@@ -81,9 +76,7 @@ pub fn (mut app App) check_auth() vweb.Result {
 
 ['/login']
 pub fn (mut app App) login() vweb.Result {
-	db := databases.create_db_connection() or {
-		panic(err)
-	}
+	db := databases.create_db_connection() or { panic(err) }
 	admins := sql db {
 		select from Admin
 	} or {
