@@ -77,7 +77,7 @@ fn main() {
 
 ['/']
 pub fn (mut app App) index() vweb.Result {
-	title := 'CcCv'
+	title := 'Paste'
 	content := ''
 	println(app.header)
 
@@ -99,6 +99,9 @@ fn (mut app App) add_paste() vweb.Result {
 
 	last := sql db {
 		select from Paste order by id desc limit 1
+	} or {
+		eprintln(err)
+		exit(1)
 	}
 	
 	last_id := last[0].id
@@ -107,6 +110,9 @@ fn (mut app App) add_paste() vweb.Result {
 
 	sql db {
 		insert body into Paste
+	} or {
+		eprintln(err)
+		exit(1)
 	}
 
 	println('${body.id}, ${body.content}')
@@ -115,25 +121,21 @@ fn (mut app App) add_paste() vweb.Result {
 	return app.text('${body.hash}\n')
 }
 
-// ['/login']
-// fn (mut app App) login() vweb.Result {
-// 	title := 'CcCv Login'
-
-// 	return $vweb.html()
-// }
-
-
 
 ['/:paste']
 fn (mut app App) paste(paste string) vweb.Result {
-	title := 'C-c C-v'
+	title := 'Paste'
 	db := databases.create_db_connection() or {
 		panic(err)
 	}
 
 	raw := sql db {
 		select from Paste where hash == '${paste}' limit 1 
+	} or {
+		eprintln(err)
+		exit(1)
 	}
+
 	if raw.len == 0 {
 		return app.not_found()
 	}
@@ -143,12 +145,4 @@ fn (mut app App) paste(paste string) vweb.Result {
 
 	return $vweb.html()
 }
-
-// ['/:url']
-// fn (mut app App) error(url string) vweb.Result {
-// 	code := app.status
-// 	println(code)
-
-// 	return $vweb.html()
-// }
 

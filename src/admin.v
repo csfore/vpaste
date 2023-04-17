@@ -27,6 +27,9 @@ fn (mut app App) admin() vweb.Result {
 
 	pastes := sql db {
 		select from Paste
+	} or {
+		eprintln(err)
+		exit(1)
 	}
 
 	// for paste in pastes {
@@ -35,6 +38,9 @@ fn (mut app App) admin() vweb.Result {
 
 	last := sql db {
 		select from Paste order by id desc limit 1
+	} or {
+		eprintln(err)
+		exit(1)
 	}
 	// println(last)
 	
@@ -53,6 +59,9 @@ pub fn (mut app App) check_auth() vweb.Result {
 	}
 	admins := sql db {
 		select from Admin
+	} or {
+		eprintln(err)
+		exit(1)
 	}
 
 	for admin in admins {
@@ -77,6 +86,9 @@ pub fn (mut app App) login() vweb.Result {
 	}
 	admins := sql db {
 		select from Admin
+	} or {
+		eprintln(err)
+		exit(1)
 	}
 
 	for admin in admins {
